@@ -135,6 +135,12 @@ export default function Dashboard({ issues, mapBounds, onSelectIssue, onVerifyIs
               <div className="h-40 w-full relative flex items-end">
                 {/* SVG Curves representing trends */}
                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="grad-indigo" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#3b82f6" />
+                      <stop offset="100%" stopColor="#60a5fa" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
                   {/* Fill Area for Active Issues */}
                   <path d="M0,80 Q25,60 50,45 T100,20 L100,100 L0,100 Z" fill="url(#grad-indigo)" opacity="0.1" />
                   
@@ -164,12 +170,6 @@ export default function Dashboard({ issues, mapBounds, onSelectIssue, onVerifyIs
                 </span>
               </div>
 
-              <defs>
-                <linearGradient id="grad-indigo" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#3b82f6" />
-                  <stop offset="100%" stopColor="#60a5fa" stopOpacity="0" />
-                </linearGradient>
-              </defs>
             </div>
           </div>
 
@@ -180,7 +180,7 @@ export default function Dashboard({ issues, mapBounds, onSelectIssue, onVerifyIs
               <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-wide">{t.predictiveIntel}</span>
             </div>
             <p className="text-[11px] font-sans text-slate-300 leading-relaxed italic">
-              "Heavy regional rainfall forecast for Thursday presents a high probability (84%) of sub-surface soil erosion under Centerville Avenue, potentially converting active category-medium potholes into critical road blockages."
+              "{t.predictiveInsightText}"
             </p>
           </div>
         </div>

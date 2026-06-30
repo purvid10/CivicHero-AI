@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Award, Trophy, Sparkles, ShoppingBag, ArrowRight, Heart, Star, Flame, CheckCircle, Shield } from 'lucide-react';
 import { CitizenProfile, RewardItem } from '../types';
 import { TRANSLATIONS } from '../translations';
+import { getLocalizedCitizenName } from '../emergencyTranslations';
 
 interface LeaderboardProps {
   profile: CitizenProfile;
@@ -10,13 +11,13 @@ interface LeaderboardProps {
 }
 
 const COMMUNITY_LEADERBOARD = [
-  { rank: 1, name: "Marcus Finch", points: 2450, level: 12, badge: "👑 Community Guardian" },
-  { rank: 2, name: "Elena Rostova", points: 1980, level: 10, badge: "🏆 City Champion" },
+  { rank: 1, name: "Manvi Srivastav", points: 2450, level: 12, badge: "👑 Community Guardian" },
+  { rank: 2, name: "Eva Mishra", points: 1980, level: 10, badge: "🏆 City Champion" },
   { rank: 3, name: "Siddharth Nair", points: 1720, level: 9, badge: "🛡️ Issue Verifier" },
-  { rank: 4, name: "Sarah Jenkins", points: 1540, level: 8, badge: "🌟 Local Hero" },
+  { rank: 4, name: "Rishab", points: 1540, level: 8, badge: "🌟 Local Hero" },
   { rank: 5, name: "You (Citizen Hero)", points: 880, level: 7, badge: "🛡️ Issue Verifier", isUser: true },
-  { rank: 6, name: "David Kim", points: 790, level: 6, badge: "🏅 Community Reporter" },
-  { rank: 7, name: "Chloe Dupont", points: 620, level: 5, badge: "🏅 Community Reporter" },
+  { rank: 6, name: "David", points: 790, level: 6, badge: "🏅 Community Reporter" },
+  { rank: 7, name: "Ram Kapoor", points: 620, level: 5, badge: "🏅 Community Reporter" },
 ];
 
 const REWARDS_STORE: RewardItem[] = [
@@ -29,6 +30,79 @@ const REWARDS_STORE: RewardItem[] = [
 
 export default function Leaderboard({ profile, onRedeemReward, langCode }: LeaderboardProps) {
   const t = TRANSLATIONS[langCode] || TRANSLATIONS['en-US'];
+  
+  const getBadgeTranslationText = (badgeText: string) => {
+    if (langCode === 'en-US') return badgeText;
+    
+    const translations: Record<string, Record<string, string>> = {
+      'hi-IN': {
+        '👑 Community Guardian': '👑 सामुदायिक संरक्षक',
+        '🏆 City Champion': '🏆 सिटी चैंपियन',
+        '🛡️ Issue Verifier': '🛡️ समस्या सत्यापनकर्ता',
+        '🌟 Local Hero': '🌟 स्थानीय नायक',
+        '🏅 Community Reporter': '🏅 सामुदायिक रिपोर्टर'
+      },
+      'bn-IN': {
+        '👑 Community Guardian': '👑 সম্প্রদায় অভিভাবক',
+        '🏆 City Champion': '👑 সিটি চ্যাম্পিয়ন',
+        '🛡️ Issue Verifier': '🛡️ সমস্যা যাচাইকারী',
+        '🌟 Local Hero': '🌟 স্থানীয় হিরো',
+        '🏅 Community Reporter': '🏅 সম্প্রদায় রিপোর্টার'
+      },
+      'gu-IN': {
+        '👑 Community Guardian': '👑 સમુદાય રક્ષક',
+        '🏆 City Champion': '🏆 સિટી ચેમ્પિયન',
+        '🛡️ Issue Verifier': '🛡️ સમસ્યા ચકાસણીકર્તા',
+        '🌟 Local Hero': '🌟 સ્થાનિક હીરો',
+        '🏅 Community Reporter': '🏅 સમુદાય રિપોર્ટર'
+      },
+      'kn-IN': {
+        '👑 Community Guardian': '👑 ಸಮುದಾಯ ರಕ್ಷಕ',
+        '🏆 City Champion': '🏆 ಸಿಟಿ ಚಾಂಪಿಯನ್',
+        '🛡️ Issue Verifier': '🛡️ ಸಮಸ್ಯೆ ಪರಿಶೀಲಕ',
+        '🌟 Local Hero': '🌟 ಸ್ಥಳೀಯ ಹೀರೋ',
+        '🏅 Community Reporter': '🏅 ಸಮುದಾಯ ವರದಿಗಾರ'
+      },
+      'ml-IN': {
+        '👑 Community Guardian': '👑 കമ്മ്യൂണിറ്റി ഗാർഡിയൻ',
+        '🏆 City Champion': '🏆 സിറ്റി ചാമ്പ്യൻ',
+        '🛡️ Issue Verifier': '🛡️ പ്രശ്ന പരിശോധകൻ',
+        '🌟 Local Hero': '🌟 പ്രാദേശിക ഹീറോ',
+        '🏅 Community Reporter': '🏅 കമ്മ്യൂണിറ്റി റിപ്പോർട്ടർ'
+      },
+      'mr-IN': {
+        '👑 Community Guardian': '👑 समुदाय रक्षक',
+        '🏆 City Champion': '🏆 सिटी चॅम्पियन',
+        '🛡️ Issue Verifier': '🛡️ समस्या पडताळणीकर्ता',
+        '🌟 Local Hero': '🌟 स्थानिक हिरो',
+        '🏅 Community Reporter': '🏅 समुदाय वार्ताहर'
+      },
+      'ta-IN': {
+        '👑 Community Guardian': '👑 சமூக பாதுகாவலர்',
+        '🏆 City Champion': '🏆 சிட்டி சாம்பியன்',
+        '🛡️ Issue Verifier': '🛡️ சிக்கல் சரிபார்ப்பவர்',
+        '🌟 Local Hero': '🌟 உள்ளூர் ஹீரோ',
+        '🏅 Community Reporter': '🏅 சமூக நிருபர்'
+      },
+      'te-IN': {
+        '👑 Community Guardian': '👑 కమ్యూనిటీ గార్డియన్',
+        '🏆 City Champion': '🏆 సిటీ ఛాంపియన్',
+        '🛡️ Issue Verifier': '🛡️ సమస్య ధృవీకరణకర్త',
+        '🌟 Local Hero': '🌟 స్థానిక హీరో',
+        '🏅 Community Reporter': '🏅 కమ్యూనిటీ రిపోర్టర్'
+      },
+      'ur-IN': {
+        '👑 Community Guardian': '👑 کمیونٹی گارڈین',
+        '🏆 City Champion': '🏆 سٹی چیمپئن',
+        '🛡️ Issue Verifier': '🛡️ مسئلہ کی تصدیق کرنے والا',
+        '🌟 Local Hero': '🌟 مقامی ہیرو',
+        '🏅 Community Reporter': '🏅 کمیونٹی رپورٹر'
+      }
+    };
+    
+    return translations[langCode]?.[badgeText] || badgeText;
+  };
+
   const [activeTab, setActiveTab] = useState<'leaderboard' | 'rewards'>('leaderboard');
   const [message, setMessage] = useState<string | null>(null);
 
@@ -314,10 +388,21 @@ export default function Leaderboard({ profile, onRedeemReward, langCode }: Leade
                   </span>
                   <div>
                     <span className="font-sans font-bold text-xs block leading-tight">
-                      {item.isUser && langCode !== 'en-US' ? (langCode === 'hi-IN' ? 'आप (नागरिक नायक)' : item.name) : item.name}
+                      {item.isUser && langCode !== 'en-US' ? (
+                        langCode === 'hi-IN' ? 'आप (नागरिक नायक)' :
+                        langCode === 'bn-IN' ? 'আপনি (সিটিজেন হিরో)' :
+                        langCode === 'gu-IN' ? 'તમે (નાગરિક હીરો)' :
+                        langCode === 'kn-IN' ? 'ನೀವು (ನಾಗರಿಕ ಹೀರೊ)' :
+                        langCode === 'ml-IN' ? 'നിങ്ങൾ (സിറ്റിസൺ ഹീറോ)' :
+                        langCode === 'mr-IN' ? 'तुम्ही (सिटिझन हिरो)' :
+                        langCode === 'ta-IN' ? 'நீங்கள் (குடிமக்கள் ஹீரோ)' :
+                        langCode === 'te-IN' ? 'మీరు (పౌర హీరో)' :
+                        langCode === 'ur-IN' ? 'آپ (شہری ہیرو)' :
+                        item.name
+                      ) : getLocalizedCitizenName(item.name, langCode)}
                     </span>
                     <span className="text-[10px] text-blue-400 font-semibold">
-                      {item.isUser && langCode !== 'en-US' ? t.citizenHero : item.badge}
+                      {item.isUser && langCode !== 'en-US' ? t.citizenHero : getBadgeTranslationText(item.badge)}
                     </span>
                   </div>
                 </div>

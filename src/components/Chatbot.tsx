@@ -9,16 +9,73 @@ interface ChatbotProps {
   languageName: string;
 }
 
-const QUICK_PROMPTS = [
-  "How can I report a water leakage?",
-  "What are the most critical potholes?",
-  "How does community verification work?",
-  "How can I earn Level 8 Citizen Hero?"
-];
+const QUICK_PROMPTS_LOCALIZED: Record<string, string[]> = {
+  'en-US': [
+    "How can I report a water leakage?",
+    "What are the most critical potholes?",
+    "How does community verification work?",
+    "How can I earn Level 8 Citizen Hero?"
+  ],
+  'hi-IN': [
+    "मैं पानी के रिसाव की रिपोर्ट कैसे करूँ?",
+    "सबसे महत्वपूर्ण गड्ढे कौन से हैं?",
+    "सामुदायिक सत्यापन कैसे काम करता है?",
+    "मैं लेवल 8 सिटीजन हीरो कैसे बन सकता हूँ?"
+  ],
+  'bn-IN': [
+    "আমি কীভাবে জলের ফুটো রিপোর্ট করতে পারি?",
+    "সবচেয়ে বিপজ্জনক গর্তগুলি কী কী?",
+    "কমিউনিটি যাচাইকরণ কীভাবে কাজ করে?",
+    "আমি কীভাবে লেভেল ৮ সিটিজেন হিরো হতে পারি?"
+  ],
+  'gu-IN': [
+    "હું પાણી લીકેજની જાણ કેવી રીતે કરી શકું?",
+    "સૌથી ગંભીર ખાડાઓ કયા છે?",
+    "સામુદાયિક ચકાસણી કેવી રીતે કામ કરે છે?",
+    "હું લેવલ ૮ સિટીઝન હີરો કેવી રીતે મેળવી શકું?"
+  ],
+  'kn-IN': [
+    "ನೀರಿನ ಸೋರಿಕೆಯನ್ನು ವರದಿ ಮಾಡುವುದು ಹೇಗೆ?",
+    "ಅತ್ಯಂತ ಗಂಭೀರ ರಸ್ತೆ ಗುಂಡಿಗಳು ಯಾವುವು?",
+    "ಸಮುದಾಯ ಪರಿಶೀಲನೆ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ?",
+    "ನಾನು ಲೆವೆಲ್ 8 ನಾಗರಿಕ ಹೀರೊ ಹೇಗೆ ಆಗಬಹುದು?"
+  ],
+  'ml-IN': [
+    "ഞാൻ എങ്ങനെയാണ് ഒരു ജല ചോർച്ച റിപ്പോർട്ട് ചെയ്യുക?",
+    "ഏറ്റവും ഗുരുതരമായ കുഴികൾ ഏവയാണ്?",
+    "കമ്മ്യൂണിറ്റി സ്ഥിരീകരണം എങ്ങനെ പ്രവർത്തിക്കുന്നു?",
+    "എനിക്ക് എങ്ങനെ ലെവل 8 സിറ്റിസൺ ഹീറോ ആകാം?"
+  ],
+  'mr-IN': [
+    "मी पाण्याची गळती कशी नोंदवू?",
+    "सर्वात गंभीर खड्डे कोणते आहेत?",
+    "सामुदायिक पडताळणी कशी कार्य करते?",
+    "मी लेव्हल ८ सिटिझन हिरो कसा बनू?"
+  ],
+  'ta-IN': [
+    "நீர் கసిவை நான் எவ்வாறு புகாரளிப்பது?",
+    "மிகவும் முக்கியமான சாலை குழிகள் யாவை?",
+    "சமூக சரிபார்ப்பு எவ்வாறு செயல்படுகிறது?",
+    "நான் எப்படி லெவல் 8 குடிமகன் ஹீரோவாவது?"
+  ],
+  'te-IN': [
+    "నేను నీటి లీకేజీని ఎలా నివేదించాలి?",
+    "అత్యంత తీవ్రమైన గుంతలు ఏవి?",
+    "కమ్యూనిటీ ధృవీకరణ ఎలా పని చేస్తుంది?",
+    "నేను లెవెల్ 8 పౌర హీరోని ఎలా పొందగలను?"
+  ],
+  'ur-IN': [
+    "میں پانی کے رساؤ کی رپورٹ کیسے کروں؟",
+    "سب سے زیادہ سنگین گڑھے کون سے ہیں؟",
+    "کمیونٹی کی تصدیق کیسے کام کرتی ہے؟",
+    "میں لیول 8 شہری ہیرو کیسے بن سکتا ہوں؟"
+  ]
+};
 
 export default function Chatbot({ currentIssues, langCode, languageName }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
   const t = TRANSLATIONS[langCode] || TRANSLATIONS['en-US'];
+  const prompts = QUICK_PROMPTS_LOCALIZED[langCode] || QUICK_PROMPTS_LOCALIZED['en-US'];
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
@@ -31,7 +88,7 @@ export default function Chatbot({ currentIssues, langCode, languageName }: Chatb
       {
         id: 'init-1',
         sender: 'ai',
-        text: t.chatbotWelcome || "Hello! I am your CivicResolve AI Assistant. I have live access to active municipal issues in Metro Heights. Ask me anything about local reports, prediction models, or how to resolve civic challenges!",
+        text: t.chatbotWelcome || "Hello! I am your CIVITAS AI Assistant. I have live access to active municipal issues in Metro Heights. Ask me anything about local reports, prediction models, or how to resolve civic challenges!",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
@@ -123,7 +180,7 @@ export default function Chatbot({ currentIssues, langCode, languageName }: Chatb
         id="btn-chatbot-toggle"
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-[9999] w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white shadow-2xl flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 group"
-        title="CivicResolve AI Assistant"
+        title="CIVITAS AI Assistant"
       >
         <span className="absolute inset-0 rounded-full bg-indigo-400 opacity-40 animate-ping group-hover:animate-none"></span>
         <span className="absolute inset-1 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 blur-sm opacity-80"></span>
@@ -140,7 +197,7 @@ export default function Chatbot({ currentIssues, langCode, languageName }: Chatb
           <div className="bg-slate-900/90 border-b border-white/10 px-5 py-4 flex justify-between items-center shrink-0">
             <div className="flex items-center gap-2">
               <span className="text-base font-display font-black text-white flex items-center gap-1.5">
-                🤖 CivicHero AI
+                🤖 {t.appName || "CIVITAS AI"}
               </span>
             </div>
             
@@ -194,10 +251,10 @@ export default function Chatbot({ currentIssues, langCode, languageName }: Chatb
           {/* Suggestion Prompts Section (Always visible right above input for premium guidance) */}
           <div className="px-4 py-2.5 bg-slate-950/20 border-t border-white/5 shrink-0">
             <span className="text-[9px] font-bold text-indigo-300 uppercase tracking-wider block mb-1.5 flex items-center gap-1 font-mono">
-              <HelpCircle className="w-3 h-3 text-indigo-400" /> Suggested Prompts
+              <HelpCircle className="w-3 h-3 text-indigo-400" /> {t.suggestedPrompts || "Suggested Prompts"}
             </span>
             <div className="flex flex-wrap gap-1.5">
-              {QUICK_PROMPTS.map((p, idx) => (
+              {prompts.map((p, idx) => (
                 <button
                   key={idx}
                   type="button"
@@ -222,7 +279,7 @@ export default function Chatbot({ currentIssues, langCode, languageName }: Chatb
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
+              placeholder={t.typeMessage || "Type your message..."}
               className="w-full text-xs bg-white/5 text-white border border-white/10 rounded-xl pl-4 pr-11 py-3 outline-none focus:bg-white/10 focus:border-indigo-500/50 transition font-sans"
             />
             <button

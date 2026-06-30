@@ -381,6 +381,7 @@ export default function ReportForm({ onAddIssue, prefilledCoords, onClearCoords,
   const [transcript, setTranscript] = useState('');
   const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const equalizerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const recognitionRef = useRef<any>(null);
   
   // Social Parsing States
   const [socialText, setSocialText] = useState('');
@@ -404,25 +405,75 @@ export default function ReportForm({ onAddIssue, prefilledCoords, onClearCoords,
     }
   }, [prefilledCoords]);
 
-  // Voice recording mock functions
+  // Voice recording with SpeechRecognition API and fallbacks
   const startVoiceRecording = () => {
     setIsRecording(true);
     setVoiceTimer(0);
     setTranscript('');
     
+    // Equalizer simulation
+    equalizerIntervalRef.current = setInterval(() => {
+      setWaveHeights(Array.from({ length: 10 }, () => Math.floor(Math.random() * 30) + 5));
+    }, 150);
+
+    // Recording timer
     recordingIntervalRef.current = setInterval(() => {
       setVoiceTimer(prev => {
-        if (prev >= 15) {
+        if (prev >= 25) { // allow up to 25 seconds of dictation
           stopVoiceRecording();
-          return 15;
+          return 25;
         }
         return prev + 1;
       });
     }, 1000);
 
-    equalizerIntervalRef.current = setInterval(() => {
-      setWaveHeights(Array.from({ length: 10 }, () => Math.floor(Math.random() * 30) + 5));
-    }, 150);
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+      try {
+        const rec = new SpeechRecognition();
+        rec.continuous = true;
+        rec.interimResults = true;
+        rec.lang = langCode; // Sets current selected language (e.g. 'en-US', 'hi-IN', etc.)
+
+        let finalTranscript = '';
+        
+        rec.onresult = (event: any) => {
+          let interimTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              finalTranscript += event.results[i][0].transcript;
+            } else {
+              interimTranscript += event.results[i][0].transcript;
+            }
+          }
+          const activeText = finalTranscript || interimTranscript;
+          if (activeText) {
+            setTranscript(activeText);
+          }
+        };
+
+        rec.onerror = (e: any) => {
+          console.error("Speech Recognition Error:", e);
+        };
+
+        rec.onend = () => {
+          // If ended and we still don't have any transcript, populate a localized mock transcript
+          setTranscript(prev => {
+            if (!prev) {
+              const transcripts = LOCALIZED_MOCK_TRANSCRIPTS[langCode] || LOCALIZED_MOCK_TRANSCRIPTS['en-US'];
+              return transcripts[Math.floor(Math.random() * transcripts.length)];
+            }
+            return prev;
+          });
+        };
+
+        recognitionRef.current = rec;
+        rec.start();
+      } catch (err) {
+        console.error("Failed to start SpeechRecognition engine:", err);
+      }
+    }
   };
 
   const stopVoiceRecording = () => {
@@ -430,15 +481,36 @@ export default function ReportForm({ onAddIssue, prefilledCoords, onClearCoords,
     if (recordingIntervalRef.current) clearInterval(recordingIntervalRef.current);
     if (equalizerIntervalRef.current) clearInterval(equalizerIntervalRef.current);
     
-    const transcripts = LOCALIZED_MOCK_TRANSCRIPTS[langCode] || LOCALIZED_MOCK_TRANSCRIPTS['en-US'];
-    const randomTranscript = transcripts[Math.floor(Math.random() * transcripts.length)];
-    setTranscript(randomTranscript);
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {
+        console.error("Error stopping SpeechRecognition:", e);
+      }
+      recognitionRef.current = null;
+    } else {
+      // Fallback in case SpeechRecognition was unsupported or didn't initialize
+      setTranscript(prev => {
+        if (!prev) {
+          const transcripts = LOCALIZED_MOCK_TRANSCRIPTS[langCode] || LOCALIZED_MOCK_TRANSCRIPTS['en-US'];
+          return transcripts[Math.floor(Math.random() * transcripts.length)];
+        }
+        return prev;
+      });
+    }
   };
 
   useEffect(() => {
     return () => {
       if (recordingIntervalRef.current) clearInterval(recordingIntervalRef.current);
       if (equalizerIntervalRef.current) clearInterval(equalizerIntervalRef.current);
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {
+          console.error(e);
+        }
+      }
     };
   }, []);
 

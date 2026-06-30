@@ -20,7 +20,7 @@ export interface Issue {
   id: string;
   title: string;
   description: string;
-  category: 'Potholes' | 'Water Leakage' | 'Damaged Streetlights' | 'Waste Management' | 'Public Infrastructure';
+  category: string;
   priority: IssuePriority;
   status: IssueStatus;
   lat: number;

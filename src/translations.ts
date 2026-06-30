@@ -126,6 +126,9 @@ export interface TranslationKeys {
   publicInfrastructureDesc: string;
   citizenProfile: string;
   doubleClickPin: string;
+  reportVerifyResolve: string;
+  regionSelection: string;
+  predictiveInsightText: string;
 }
 
 export const LANGUAGES = [
@@ -143,7 +146,7 @@ export const LANGUAGES = [
 
 export const TRANSLATIONS: Record<string, TranslationKeys> = {
   'en-US': {
-    appName: "CivicResolve",
+    appName: "CIVITAS AI",
     appSubtitle: "Autonomous Hyperlocal Civic Problem Solver • Metro Heights Core",
     doubleClickHint: "Double-click map to pre-fill report gps coordinates",
     levelInfo: "Level 7 Citizen Hero",
@@ -166,7 +169,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "Leaderboard",
     unlockedBadges: "Unlocked Badges",
     signout: "Sign Out",
-    loginTitle: "CivicResolve Smart City Entry",
+    loginTitle: "CIVITAS AI Smart City Entry",
     loginSubtitle: "Sign in to access your local gamified civic dashboard, report incidents with voice, and earn reward points.",
     fullNameLabel: "Full Name",
     locationLabel: "Your Sector / Location",
@@ -185,7 +188,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "Damaged Streetlights",
     wasteManagement: "Waste Management",
     publicInfrastructure: "Public Infrastructure",
-
     activeCitations: "Active Citations",
     completedResolutions: "Completed Resolutions",
     criticalBlockages: "Critical Blockages",
@@ -268,10 +270,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "Garbage overflow and dumping",
     publicInfrastructureDesc: "Broken civic parks or public assets",
     citizenProfile: "Citizen Profile",
-    doubleClickPin: "Double-click map to pin coordinates"
+    doubleClickPin: "Double-click map to pin coordinates",
+    reportVerifyResolve: "REPORT. VERIFY. RESOLVE.",
+    regionSelection: "Region Selection (India)",
+    predictiveInsightText: "Heavy regional rainfall forecast for Thursday presents a high probability (84%) of sub-surface soil erosion under Centerville Avenue, potentially converting active category-medium potholes into critical road blockages."
   },
   'hi-IN': {
-    appName: "सिटिज़न रिज़ॉल्व",
+    appName: "सिविटास एआई",
     appSubtitle: "स्वायत्त हाइपरलोकल नागरिक समस्या निवारक • मेट्रो हाइट्स कोर",
     doubleClickHint: "रिपोर्ट जीपीएस निर्देशांक को पूर्व-भरने के लिए मानचित्र पर डबल-क्लिक करें",
     levelInfo: "स्तर 7 नागरिक नायक",
@@ -294,7 +299,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "लीडरबोर्ड",
     unlockedBadges: "अनलॉक किए गए बैज",
     signout: "साइन आउट",
-    loginTitle: "सिटिज़न रिज़ॉल्व स्मार्ट सिटी प्रवेश",
+    loginTitle: "सिविटास एआई स्मार्ट सिटी प्रवेश",
     loginSubtitle: "अपने स्थानीय गेमीफाइड नागरिक डैशबोर्ड तक पहुंचने, आवाज के साथ घटनाओं की रिपोर्ट करने और पुरस्कार अंक अर्जित करने के लिए साइन इन करें।",
     fullNameLabel: "पूरा नाम",
     locationLabel: "आपका क्षेत्र / स्थान",
@@ -313,7 +318,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "क्षतिग्रस्त स्ट्रीटलाइट्स",
     wasteManagement: "कचरा प्रबंधन",
     publicInfrastructure: "सार्वजनिक बुनियादी ढांचा",
-
     activeCitations: "सक्रिय प्रशस्तियाँ",
     completedResolutions: "पूर्ण संकल्प",
     criticalBlockages: "गंभीर अवरोध",
@@ -396,10 +400,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "कचरे का फैलाव और डंपिंग",
     publicInfrastructureDesc: "टूटे नागरिक पार्क या सार्वजनिक संपत्ति",
     citizenProfile: "नागरिक प्रोफ़ाइल",
-    doubleClickPin: "निर्देशांक पिन करने के लिए नक्शे पर डबल-क्लिक करें"
+    doubleClickPin: "निर्देशांक पिन करने के लिए नक्शे पर डबल-क्लिक करें",
+    reportVerifyResolve: "रिपोर्ट करें। सत्यापित करें। समाधान करें।",
+    regionSelection: "क्षेत्र चयन (भारत)",
+    predictiveInsightText: "गुरुवार के लिए भारी क्षेत्रीय बारिश का पूर्वानुमान सेंट्रविले एवेन्यू के तहत उप-सतह मिट्टी के कटाव की उच्च संभावना (84%) प्रस्तुत करता है, जिससे संभावित रूप से मध्यम श्रेणी के गड्ढे गंभीर सड़क अवरोधों में बदल सकते हैं।"
   },
   'bn-IN': {
-    appName: "সিভিক রিজলভ",
+    appName: "সিভিটাস এআই",
     appSubtitle: "স্বায়ত্তশাসিত হাইপারলোকাল নাগরিক সমস্যা সমাধানকারী • মেট্রো হাইটস কোর",
     doubleClickHint: "রিপোর্ট জিপিএস স্থানাঙ্ক প্রাক-পূরণ করতে মানচিত্রে ডাবল-ক্লিক করুন",
     levelInfo: "লেভেল ৭ সিটিজেন হিরো",
@@ -422,7 +429,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "লিডারবোর্ড",
     unlockedBadges: "আনলক করা ব্যাজ",
     signout: "সাইন আউট",
-    loginTitle: "সিভিক রিজলভ স্মার্ট সিটি প্রবেশ",
+    loginTitle: "সিভিটাস এআই স্মার্ট সিটি প্রবেশ",
     loginSubtitle: "আপনার স্থানীয় গেমিফাইড সিভিক ড্যাশবোর্ড অ্যাক্সেস করতে, ভয়েসের মাধ্যমে রিপোর্ট করতে এবং পুরস্কার পয়েন্ট অর্জন করতে সাইন ইন করুন।",
     fullNameLabel: "সম্পূর্ণ নাম",
     locationLabel: "আপনার সেক্টর / অবস্থান",
@@ -441,7 +448,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "নষ্ট স্ট্রিটলাইট",
     wasteManagement: "বর্জ্য ব্যবস্থাপনা",
     publicInfrastructure: "পাবলিক অবকাঠামো",
-
     activeCitations: "সক্রিয় ঘটনা",
     completedResolutions: "সম্পন্ন সমাধান",
     criticalBlockages: "গুরুতর বাধা",
@@ -524,10 +530,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "আবর্জনা উপচে পড়া এবং ডাম্পিং",
     publicInfrastructureDesc: "ভাঙা পার্ক বা নাগরিক সম্পদ",
     citizenProfile: "নাগরিক প্রোফাইল",
-    doubleClickPin: "স্থানাঙ্ক পিন করতে মানচিত্রে ডাবল-ক্লিক করুন"
+    doubleClickPin: "স্থানাঙ্ক পিন করতে মানচিত্রে ডাবল-ক্লিক করুন",
+    reportVerifyResolve: "রিপোর্ট করুন। যাচাই করুন। সমাধান করুন।",
+    regionSelection: "অঞ্চল নির্বাচন (ভারত)",
+    predictiveInsightText: "বৃহস্পতিবারের জন্য ভারী আঞ্চলিক বৃষ্টিপাতের পূর্বাভাস সেন্ট্রাভিলে অ্যাভিনিউর অধীনে উপ-পৃষ্ঠের মাটি ক্ষয়ের উচ্চ সম্ভাবনা (84%) উপস্থাপন করে, যা মাঝারি ক্যাটাগরির গর্তগুলিকে গুরুতর সড়ক ব্লকেজে পরিণত করতে পারে।"
   },
   'gu-IN': {
-    appName: "સિિવક રિઝોલ્વ",
+    appName: "સિવિટાસ એઆઈ",
     appSubtitle: "સ્વાયત્ત હાઇપરલોકલ નાગરિક સમસ્યા નિવારક • મેટ્રો હાઇટ્સ કોર",
     doubleClickHint: "રિપોર્ટ જીપીએસ કોઓર્ડિનેટ્સ પ્રી-ફિલ કરવા માટે નકશા પર ડબલ-ક્લિક કરો",
     levelInfo: "લેવલ ૭ સિટિઝન હીરો",
@@ -550,7 +559,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "લીડરબોર્ડ",
     unlockedBadges: "અનલોક કરેલ બેજ",
     signout: "સાઇન આઉટ",
-    loginTitle: "સિિવક રિઝોલ્વ સ્માર્ટ સિટી પ્રવેશ",
+    loginTitle: "સિવિટાસ એઆઈ સ્માર્ટ સિટી પ્રવેશ",
     loginSubtitle: "તમારા સ્થાનિક ગેમિફાઇડ સિટિઝન ડેશબોર્ડને ઍક્સેસ કરવા, અવાજ સાથે રિપોર્ટ કરવા અને પોઈન્ટ મેળવવા સાઇન ઇન કરો.",
     fullNameLabel: "આખું નામ",
     locationLabel: "તમારો સેક્ટર / સ્થાન",
@@ -569,7 +578,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "બગડેલી સ્ટ્રીટલાઈટ",
     wasteManagement: "કચરા વ્યવસ્થાપન",
     publicInfrastructure: "જાહેર ઇન્ફ્રાસ્ટ્રક્ચર",
-
     activeCitations: "સક્રિય અહેવાલો",
     completedResolutions: "પૂર્ણ થયેલ ઉકેલો",
     criticalBlockages: "જટિલ અવરોધો",
@@ -652,10 +660,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "કચરો ભરાઈ જવો અને ફેંકવો",
     publicInfrastructureDesc: "તૂટેલા બગીચાઓ અથવા જાહેર મિલકત",
     citizenProfile: "નાગરિક પ્રોફાઇલ",
-    doubleClickPin: "કોઓર્ડિનેટ્સ પિન કરવા માટે નકશા પર ડબલ-ક્લિક કરો"
+    doubleClickPin: "કોઓર્ડિનેટ્સ પિન કરવા માટે નકશા પર ડબલ-ક્લિક કરો",
+    reportVerifyResolve: "રિપોર્ટ કરો. વેરિફાય કરો. ઉકેલો.",
+    regionSelection: "વિસ્તાર પસંદગી (ભારત)",
+    predictiveInsightText: "ગુરુવાર માટે ભારે પ્રાદೇಶિક વરસાદની આગાહી સેન્ટરવિલે એવન્યુ હેઠળ પેટા સપાટીની જમીનના ધોવાણની ઉચ્ચ સંભાવના (૮૪%) રજૂ કરે છે, જે સંભવિતપણે મધ્યમ વર્ગના ખાડાઓને કટોકટીના રસ્તા અવરોધોમાં ફેરવી શકે છે."
   },
   'kn-IN': {
-    appName: "ಸಿವಿಕ್ ರಿಸಾಲ್ವ್",
+    appName: "ಸಿವಿಟಾಸ್ ಎಐ",
     appSubtitle: "ಸ್ವಾಯತ್ತ ಹೈಪರ್ಲೋಕಲ್ ನಾಗರಿಕ ಸಮಸ್ಯೆ ಪರಿಹಾರಕ • ಮೆಟ್ರೋ ಹೈಟ್ಸ್ ಕೋರ್",
     doubleClickHint: "ವರದಿ ಜಿಪಿಎಸ್ ನಿರ್ದೇಶಾಂಕಗಳನ್ನು ಮೊದಲೇ ತುಂಬಲು ನಕ್ಷೆಯ ಮೇಲೆ ಡಬಲ್ ಕ್ಲಿಕ್ ಮಾಡಿ",
     levelInfo: "ಮಟ್ಟ 7 ನಾಗರಿಕ ಹೀರೊ",
@@ -678,7 +689,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "ಲೀಡರ್‌ಬೋರ್ಡ್",
     unlockedBadges: "ಅನ್‌ಲಾಕ್ ಮಾಡಿದ ಬ್ಯಾಡ್ಜ್‌ಗಳು",
     signout: "ಸೈನ್ ಔಟ್",
-    loginTitle: "ಸಿವಿಕ್ ರಿಸಾಲ್ವ್ ಸ್ಮಾರ್ಟ್ ಸಿಟಿ ಪ್ರವೇಶ",
+    loginTitle: "ಸಿವಿಟಾಸ್ ಎಐ ಸ್ಮಾರ್ಟ್ ಸಿಟಿ ಪ್ರವೇಶ",
     loginSubtitle: "ನಿಮ್ಮ ಸ್ಥಳೀಯ ಸಿವಿಕ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಪ್ರವೇಶಿಸಲು, ಧ್ವನಿ ಮೂಲಕ ವರದಿ ಮಾಡಲು ಮತ್ತು ಬಹುಮಾನ ಅಂಕಗಳನ್ನು ಗಳಿಸಲು ಸೈನ್ ಇನ್ ಮಾಡಿ.",
     fullNameLabel: "ಪೂರ್ಣ ಹೆಸರು",
     locationLabel: "ನಿಮ್ಮ ಸೆಕ್ಟರ್ / ಸ್ಥಳ",
@@ -697,7 +708,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "ಹಾಳಾದ ಬೀದಿದೀಪಗಳು",
     wasteManagement: "ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆ",
     publicInfrastructure: "ಸಾರ್ವಜನಿಕ ಮೂಲಸೌಕರ್ಯ",
-
     activeCitations: "ಸಕ್ರಿಯ ದೂರುಗಳು",
     completedResolutions: "ಪೂರ್ಣಗೊಂಡ ಪರಿಹಾರಗಳು",
     criticalBlockages: "ಗಂಭೀರ ಅಡೆತಡೆಗಳು",
@@ -780,10 +790,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "ಕಸದ ರಾಶಿ ಮತ್ತು ಹೊರಚೆಲ್ಲುವಿಕೆ",
     publicInfrastructureDesc: "ಹಾಳಾದ ಪಾರ್ಕ್‌ಗಳು ಅಥವಾ ಸಾರ್ವಜನಿಕ ಆಸ್ತಿ",
     citizenProfile: "ನಾಗರಿಕ ಪ್ರೊಫೈಲ್",
-    doubleClickPin: "ನಿರ್ದೇಶಾಂಕಗಳನ್ನು ಪಿನ್ ಮಾಡಲು ನಕ್ಷೆಯ ಮೇಲೆ ಡಬಲ್ ಕ್ಲಿಕ್ ಮಾಡಿ"
+    doubleClickPin: "ನಿರ್ದೇಶಾಂಕಗಳನ್ನು ಪಿನ್ ಮಾಡಲು ನಕ್ಷೆಯ ಮೇಲೆ ಡಬಲ್ ಕ್ಲಿಕ್ ಮಾಡಿ",
+    reportVerifyResolve: "ವರದಿ ಮಾಡಿ. ಪರಿಶೀಲಿಸಿ. ಪರಿಹರಿಸಿ.",
+    regionSelection: "ಪ್ರದೇಶದ ಆಯ್ಕೆ (ಭಾರತ)",
+    predictiveInsightText: "ಗುರುವಾರ ಭಾರಿ ಪ್ರಾದೇಶಿಕ ಮಳೆ ಮುನ್ಸೂಚನೆಯು ಸೆಂಟರ್‌ವಿಲ್ಲೆ ಅವೆನ್ಯೂ ಅಡಿಯಲ್ಲಿ ಉಪ-ಮೇಲ್ಮೈ ಮಣ್ಣಿನ ಸವೆತದ ಹೆಚ್ಚಿನ ಸಂಭವನೀಯತೆಯನ್ನು (84%) ಸೂಚಿಸುತ್ತದೆ, ಇದು ಪ್ರಾದೇಶಿಕ ರಸ್ತೆ ಗುಂಡಿಗಳನ್ನು ಕಠಿಣ ರಸ್ತೆ ಬ್ಲಾಕ್ ಆಗಿ ಪರಿವರ್ತಿಸಬಹುದು."
   },
   'ml-IN': {
-    appName: "സിവിക് റിസോൾവ്",
+    appName: "സിവിറ്റാസ് എഐ",
     appSubtitle: "സ്വയംഭരണ ഹൈപ്പർലോക്കൽ സിവിക് പ്രശ്ന പരിഹാരകൻ • മെട്രോ ഹൈറ്റ്സ് കോർ",
     doubleClickHint: "റിപ്പോർട്ട് ജിപിഎസ് കോർഡിനേറ്റുകൾ മുൻകൂട്ടി പൂരിപ്പിക്കുന്നതിന് മാപ്പിൽ ഡബിൾ ക്ലിക്ക് ചെയ്യുക",
     levelInfo: "ലെവൽ 7 സിറ്റിസൺ ഹീറോ",
@@ -806,7 +819,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "ಲೀಡರ್ಬೋರ್ಡ್",
     unlockedBadges: "അൺലോക്ക് ചെയ്ത ബാഡ്ജുകൾ",
     signout: "സൈൻ ഔട്ട്",
-    loginTitle: "സിവിക് റിസോൾവ് സ്മാർട്ട് സിറ്റി പ്രവേശനം",
+    loginTitle: "സിവിറ്റാസ് എഐ സ്മാർട്ട് സിറ്റി പ്രവേശനം",
     loginSubtitle: "നിങ്ങളുടെ പ്രാദേശിക സിവിക് ഡാഷ്‌ബോർഡ് ആക്‌സസ് ചെയ്യാനും വോയ്‌സ് റിപ്പോർട്ട് ചെയ്യാനും പോയിന്റുകൾ നേടാനും സൈൻ ഇൻ ചെയ്യുക.",
     fullNameLabel: "പൂർണ്ണ നാമം",
     locationLabel: "നിങ്ങളുടെ സെക്ടർ / ലൊക്കേഷൻ",
@@ -825,7 +838,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "കേടായ തെരുവ് വിളക്കുകൾ",
     wasteManagement: "മാലിന്യ സംസ്കരണം",
     publicInfrastructure: "പൊതു ഇൻഫ്രാസ്ട്രക്ചർ",
-
     activeCitations: "സജീവ കേസുകൾ",
     completedResolutions: "പൂർത്തിയാക്കിയ പരിഹാരങ്ങൾ",
     criticalBlockages: "ഗുരുതരമായ തടസ്സങ്ങൾ",
@@ -908,10 +920,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "മാലിന്യങ്ങൾ കുന്നുകൂടുന്നത്",
     publicInfrastructureDesc: "തകർന്ന പാർക്കുകൾ അല്ലെങ്കിൽ പൊതുമുതൽ",
     citizenProfile: "സിറ്റിസൺ പ്രൊഫൈൽ",
-    doubleClickPin: "കോർഡിനേറ്റുകൾ പിൻ ചെയ്യാൻ മാപ്പിൽ ഇരട്ട ക്ലിക്ക് ചെയ്യുക"
+    doubleClickPin: "കോർഡിനേറ്റുകൾ പിൻ ചെയ്യാൻ മാപ്പിൽ ഇരട്ട ക്ലിക്ക് ചെയ്യുക",
+    reportVerifyResolve: "റിപ്പോർട്ട് ചെയ്യുക. സ്ഥിരീകരിക്കുക. പരിഹരിക്കുക.",
+    regionSelection: "മേഖല തിരഞ്ഞെടുക്കൽ (ഇന്ത്യ)",
+    predictiveInsightText: "വ്യാഴാഴ്ച പെയ്യുന്ന കനത്ത പ്രാദേശിക മഴ സെന്റർവില്ലെ അവന്യൂവിന് താഴെയുള്ള ഉപരിതല മണ്ണൊലിപ്പിന് ഉയർന്ന സാധ്യത (84%) നൽകുന്നു, ഇത് നിലവിലുള്ള ഇടത്തരം കുഴികളെ ഗുരുതരമായ റോഡ് തടസ്സങ്ങളാക്കി മാറ്റിയേക്കാം."
   },
   'mr-IN': {
-    appName: "सिटिझन रिझॉल्व्ह",
+    appName: "सिव्हिटास एआय",
     appSubtitle: "स्वायत्त हायपरलोकल नागरी समस्या निवारक • मेट्रो हाईट्स कोर",
     doubleClickHint: "रिपोर्ट जीपीएसCoordinates पूर्व-भरण्यासाठी नकाशावर डबल-क्लिक करा",
     levelInfo: "स्तर ७ सिटिझन हिरो",
@@ -934,7 +949,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "लीडरबोर्ड",
     unlockedBadges: "अनलॉक केलेले बॅज",
     signout: "साइन आउट",
-    loginTitle: "सिटिझन रिझॉल्व्ह स्मार्ट सिटी प्रवेश",
+    loginTitle: "सिव्हिटास एआय स्मार्ट सिटी प्रवेश",
     loginSubtitle: "आपल्या स्थानिक नागरी डॅशबोर्डमध्ये प्रवेश करण्यासाठी, व्हॉईसद्वारे तक्रार नोंदवण्यासाठी आणि गुण मिळवण्यासाठी साइन इन करा.",
     fullNameLabel: "पूर्ण नाव",
     locationLabel: "आपला विभाग / स्थान",
@@ -953,7 +968,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "बंद पथदिवे",
     wasteManagement: "कचरा व्यवस्थापन",
     publicInfrastructure: "सार्वजनिक पायाभूत सुविधा",
-
     activeCitations: "सक्रिय उद्धरण",
     completedResolutions: "पूर्ण झालेले निराकरण",
     criticalBlockages: "गंभीर अडथळे",
@@ -1036,10 +1050,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "कचऱ्याचे साम्राज्य आणि डंपिंग",
     publicInfrastructureDesc: "तूटलेले उद्याने किंवा सार्वजनिक मालमत्ता",
     citizenProfile: "नागरी प्रोफाइल",
-    doubleClickPin: "कोऑर्डिनेट्स पिन करण्यासाठी नकाशावर डबल-क्लिक करा"
+    doubleClickPin: "कोऑर्डिनेट्स पिन करण्यासाठी नकाशावर डबल-क्लिक करा",
+    reportVerifyResolve: "अहवाल द्या. पडताळणी करा. सोडवा.",
+    regionSelection: "प्रदेश निवड (भारत)",
+    predictiveInsightText: "गुरुवारच्या मुसळधार पावसाच्या अंदाजा मुळे सेंटरविले एव्हेन्यू खालील उप-पृष्ठभागावरील मातीची धूप होण्याची दाट शक्यता (८४%) आहे, ज्यामुळे संभाव्यत: मध्यम खड्डे गंभीर रस्ता अडथळ्यांमध्ये बदलू शकतात."
   },
   'ta-IN': {
-    appName: "சிவிக் ரிசால்வ்",
+    appName: "சிவிடாஸ் ஏஐ",
     appSubtitle: "தன்னியக்க ஹைப்பர்லோகல் குடிமக்கள் குறை தீர்ப்பான் • மெட்ரோ ஹைட்ஸ் கோர்",
     doubleClickHint: "வரைபடத்தில் இருமுறை கிளிக் செய்து ஜிபிஎஸ் விவரங்களை நிரப்பவும்",
     levelInfo: "நிலை 7 குடிமக்கள் ஹீரோ",
@@ -1062,7 +1079,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "தரவரிசை பட்டியல்",
     unlockedBadges: "அன்லாக் செய்யப்பட்ட பேட்ஜ்கள்",
     signout: "வெளியேறு",
-    loginTitle: "சிவிக் ரிசால்வ் ஸ்மார்ட் சிட்டி நுழைவு",
+    loginTitle: "சிவிடாஸ் ஏஐ ஸ்மார்ட் சிட்டி நுழைவு",
     loginSubtitle: "உங்கள் உள்ளூர் குறை தீர்ப்பு பக்கத்தை அணுக, குரல் மூலம் புகாரளிக்க மற்றும் புள்ளிகள் பெற உள்நுழையவும்.",
     fullNameLabel: "முழு பெயர்",
     locationLabel: "உங்கள் பகுதி / இருப்பிடம்",
@@ -1081,7 +1098,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "பழுதடைந்த தெருவிளக்குகள்",
     wasteManagement: "கழிவு மேலாண்மை",
     publicInfrastructure: "பொது உள்கட்டமைப்பு",
-
     activeCitations: "செயலில் உள்ள புகார்கள்",
     completedResolutions: "முடிக்கப்பட்ட தீர்வுகள்",
     criticalBlockages: "முக்கிய தடைகள்",
@@ -1164,10 +1180,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "குப்பைகள் குவிதல் மற்றும் கொட்டுதல்",
     publicInfrastructureDesc: "பழுதடைந்த பூங்காக்கள் அல்லது பொது சொத்துக்கள்",
     citizenProfile: "குடிமக்கள் சுயவிவரம்",
-    doubleClickPin: "குறியீடுகளைப் பின செய்ய வரைபடத்தில் இருமுறை கிளிக் செய்யவும்"
+    doubleClickPin: "குறியீடுகளைப் பின செய்ய வரைபடத்தில் இருமுறை கிளிக் செய்யவும்",
+    reportVerifyResolve: "புகாரளிக்கவும். சரிபார்க்கவும். தீர்க்கவும்.",
+    regionSelection: "பிராந்திய தேர்வு (இந்தியா)",
+    predictiveInsightText: "வியாழக்கிழமைக்கான பலத்த பிராந்திய மழை முன்னறிవిப்பு சென்டர்வில் அவென்யூவின் கீழ் உப-மேற்பরப்பு மண் அரிப்புக்கான அதிக நிகழ்தகவை (84%) அளிக்கிறது, இதனால் நடுத்தர அளவிலான சாலை குழிகள் கடுமையான சாலை தடுப்புகளாக மாறக்கூடும்."
   },
   'te-IN': {
-    appName: "సివిక్ రిసాల్వ్",
+    appName: "సివిటాస్ ఏఐ",
     appSubtitle: "స్వయంప్రతిపత్త హైపర్లోకల్ పౌర సమస్యల పరిష్కారిణి • మెట్రో హైట్స్ కోర్",
     doubleClickHint: "నివేదిక జిపిఎస్ కోఆర్డినేట్లను నింపడానికి మ్యాప్‌పై డబుల్ క్లిక్ చేయండి",
     levelInfo: "స్థాయి 7 పౌర హీరో",
@@ -1190,7 +1209,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "లీడర్‌బోర్డ్",
     unlockedBadges: "అన్‌లాక్ చేయబడిన బ్యాడ్జ్‌లు",
     signout: "సైన్ అవుట్",
-    loginTitle: "సివిక్ రిసాల్వ్ స్మార్ట్ సిటీ ప్రవేశం",
+    loginTitle: "సివిటాస్ ఏఐ స్మార్ట్ సిటీ ప్రవేశం",
     loginSubtitle: "మీ స్థానిక సివిక్ డాష్‌బోర్డ్ యాక్సెస్ చేయడానికి, వాయిస్ ద్వారా ఫిర్యాదు చేయడానికి మరియు పాయింట్లు పొందడానికి లాగిన్ అవ్వండి.",
     fullNameLabel: "పూర్తి పేరు",
     locationLabel: "మీ సెక్టార్ / ప్రాంతం",
@@ -1209,7 +1228,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "పాడైపోయిన వీధి దీపాలు",
     wasteManagement: "వ్యర్థాల నిర్వహణ",
     publicInfrastructure: "పౌర మౌలిక సదుపాయాలు",
-
     activeCitations: "సక్రియ సమస్యలు",
     completedResolutions: "పూర్తయిన పరిష్కారాలు",
     criticalBlockages: "తీవ్రమైన అడ్డంకులు",
@@ -1292,10 +1310,13 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     wasteManagementDesc: "చెత్త కుప్పలు మరియు వ్యర్థాలు",
     publicInfrastructureDesc: "పాడైపోయిన పార్కులు లేదా ప్రజా ఆస్తి",
     citizenProfile: "పౌర ప్రొఫైల్",
-    doubleClickPin: "కోఆర్డినేట్లు పిన్ చేయడానికి మ్యాప్‌పై డబుల్ క్లిక్ చేయండి"
+    doubleClickPin: "కోఆర్డినేట్లు పిన్ చేయడానికి మ్యాప్‌పై డబుల్ క్లిక్ చేయండి",
+    reportVerifyResolve: "రిపోర్ట్ చేయండి. ధృవీకరించండి. పరిష్కరించండి.",
+    regionSelection: "ప్రాంతం ఎంపిక (భారతదేశం)",
+    predictiveInsightText: "గురువారం భారీ ప్రాంతీయ వర్షపాత సూచన సెంటర్‌విల్లే అవెన్యూ కింద ఉప-ఉపరితల నేల కోతకు అధిక సంభావ్యతను (84%) సూచిస్తుంది, ఇది సాధారణ గుంతలను తీవ్రమైన రహదారి అడ్డంకులుగా మార్చవచ్చు."
   },
   'ur-IN': {
-    appName: "سیوک ریزولو",
+    appName: "سیویٹاس اے آئی",
     appSubtitle: "خود مختار ہائپر لوکل شہری مسائل حل کرنے والا نظام • میٹرو ہائٹس",
     doubleClickHint: "جی پی ایس کوآرڈینیٹس بھرنے کے لئے نقشے پر ڈبل کلک کریں",
     levelInfo: "لیول 7 شہری ہیرو",
@@ -1318,7 +1339,7 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     leaderboard: "لیڈر بورڈ",
     unlockedBadges: "انلاک شدہ بیجز",
     signout: "سائن آؤٹ",
-    loginTitle: "سیوک ریزولو اسمارٹ سٹی داخله",
+    loginTitle: "سیویٹاس اے آئی اسمارٹ سٹی داخله",
     loginSubtitle: "اپنے مقامی شہری ڈیش بورڈ تک رسائی حاصل کرنے، آواز کے شکایت درج کرنے اور پوائنٹس کمانے کے لئے سائن ان کریں۔",
     fullNameLabel: "پورا نام",
     locationLabel: "آپ کا سیکٹر / مقام",
@@ -1337,7 +1358,6 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlights: "خراب اسٹریٹ لائٹس",
     wasteManagement: "کچرے کا انتظام",
     publicInfrastructure: "عوامی انفراسٹرکچر",
-
     activeCitations: "فعال حوالہ جات",
     completedResolutions: "مکمل شدہ حل",
     criticalBlockages: "شدید رکاوٹیں",
@@ -1419,7 +1439,10 @@ export const TRANSLATIONS: Record<string, TranslationKeys> = {
     streetlightsDesc: "بجلی کے ٹوٹے کھمبے یا لیمپ",
     wasteManagementDesc: "کچرا پھیلنا اور گندگی",
     publicInfrastructureDesc: "شہری پارکوں اور عوامی املاک کی مسماری",
-    citizenProfile: "شہری پروفائل",
-    doubleClickPin: "کوآرڈینیٹ پن کرنے کے لئے نقشے پر ڈبل کلک کریں"
+    citizenProfile: "شहरी پروفائل",
+    doubleClickPin: "کوآرڈینیٹ پن کرنے کے لئے نقشے پر ڈبل کلک کریں",
+    reportVerifyResolve: "رپورٹ کریں۔ تصدیق کریں۔ حل کریں۔",
+    regionSelection: "علاقے کا انتخاب (بھارت)",
+    predictiveInsightText: "جمعرات کو ہونے والی تیز بارش سینٹرویل ایونیو کے نیچے ذیلی مٹی کے کٹاؤ کا بہت زیادہ امکان (84٪) پیدا کرتی ہے، جو ممکنہ طور پر درمیانے گڑھوں کو سنگین ترین سڑک کی رکاوٹوں میں بدل سکتی ہے۔"
   }
 };

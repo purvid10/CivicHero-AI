@@ -1,6 +1,6 @@
 {
-  "name": "CivicHero AI",
+  "name": "CIVITAS AI",
   "description": "A premium glassmorphic VisionOS-inspired hyperlocal civic problem-solving platform powered by intelligent AI agents.",
-  "requestFramePermissions": [],
+  "requestFramePermissions": ["geolocation", "microphone", "camera"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

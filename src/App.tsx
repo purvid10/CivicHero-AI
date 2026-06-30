@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Sparkles, MapPin, Eye, Info, CheckCircle, Navigation, LayoutDashboard, Send, Award, MessageSquare, Flame, LogOut, Globe, User, ChevronDown, X } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Sparkles, MapPin, Eye, Info, CheckCircle, Navigation, LayoutDashboard, Send, Award, MessageSquare, Flame, LogOut, Globe, User, ChevronDown, X, AlertCircle } from 'lucide-react';
 import { Issue, CitizenProfile, Badge } from './types';
 import MapComponent from './components/MapComponent';
 import WorkflowDisplay from './components/WorkflowDisplay';
@@ -9,7 +9,9 @@ import Chatbot from './components/Chatbot';
 import Dashboard from './components/Dashboard';
 import { LANGUAGES, TRANSLATIONS } from './translations';
 import { INDIAN_SAMPLE_ISSUES } from './data/indiaData';
-const civicLogo = "/src/assets/images/civichero_logo_1782658605680.jpg";
+import { getLocalizedIssue } from './issueTranslations';
+import { getLocalizedStateName } from './stateTranslations';
+import civicLogo from './assets/images/civichero_logo_1782658605680.jpg';
 
 // Mapping of all 29 Indian States and their capital cities for the Hackathon explorer
 const INDIAN_STATES_MAPPING = [
@@ -58,7 +60,7 @@ const INITIAL_ISSUES: Issue[] = [
     upvotes: 42,
     downvotes: 2,
     verificationCount: 15,
-    reportedBy: 'Marcus Finch',
+    reportedBy: 'Manvi Srivastav',
     reportedAt: '2026-06-22, 10:14 AM',
     imageUrl: 'https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&q=80&w=400',
     aiSummary: 'Critical roadway fissure identified. Deep sub-surface erosion detected. High safety hazard index calculated.',
@@ -67,7 +69,7 @@ const INITIAL_ISSUES: Issue[] = [
     aiResolutionRecommendation: 'Deploy tactical paving patch crew with heavy asphalt sealer within 12 hours. Set flashing alert beacons.',
     authorityAssigned: 'Department of Urban Paving',
     timeline: [
-      { status: 'reported', timestamp: '10:14 AM', title: 'Incident Created', description: 'Citizen Marcus Finch reported deep pothole with attachments.' },
+      { status: 'reported', timestamp: '10:14 AM', title: 'Incident Created', description: 'Citizen Manvi Srivastav reported deep pothole with attachments.' },
       { status: 'investigating', timestamp: '10:15 AM', title: 'Autonomous AI Dispatch', description: 'Geo Intelligence Agent verified location index & mapped boundaries.' },
       { status: 'verified', timestamp: '10:20 AM', title: 'Community Consensus Approved', description: 'Reached 10+ witness audits. Escalating priority.' },
       { status: 'prioritized', timestamp: '10:22 AM', title: 'Urgency Calculated', description: 'Prioritization Agent assigned CRITICAL rating with 88 Impact Score.' }
@@ -85,7 +87,7 @@ const INITIAL_ISSUES: Issue[] = [
     upvotes: 28,
     downvotes: 1,
     verificationCount: 8,
-    reportedBy: 'Elena Rostova',
+    reportedBy: 'Eva Mishra',
     reportedAt: '2026-06-23, 08:35 AM',
     imageUrl: 'https://images.unsplash.com/photo-1542013936693-8848e5742383?auto=format&fit=crop&q=80&w=400',
     aiSummary: 'Clean water distribution pipe failure. Fluid velocity indicates 12 GPM continuous loss. Flooding localized trail sectors.',
@@ -94,7 +96,7 @@ const INITIAL_ISSUES: Issue[] = [
     aiResolutionRecommendation: 'Mobilize sub-surface acoustic leak detection team. Isolate main utility valve 4B and excavate curb seam.',
     authorityAssigned: 'Water Supply & Sewage Division',
     timeline: [
-      { status: 'reported', timestamp: '08:35 AM', title: 'Water Leak Logged', description: 'Citizen Elena Rostova reported localized pressurized curb flooding.' },
+      { status: 'reported', timestamp: '08:35 AM', title: 'Water Leak Logged', description: 'Citizen Eva Mishra reported localized pressurized curb flooding.' },
       { status: 'investigating', timestamp: '08:40 AM', title: 'Leak Core Triaged', description: 'Geo Intelligence Agent matched coordinates against water pipeline schematics.' },
       { status: 'verified', timestamp: '09:00 AM', title: 'consensus validated', description: '8 community witnesses verified witness report.' },
       { status: 'prioritized', timestamp: '09:05 AM', title: 'High Priority Logged', description: 'Dynamic priority algorithm marked HIGH urgency.' },
@@ -138,7 +140,7 @@ const INITIAL_ISSUES: Issue[] = [
     upvotes: 35,
     downvotes: 0,
     verificationCount: 9,
-    reportedBy: 'Sarah Jenkins',
+    reportedBy: 'Rishab',
     reportedAt: '2026-06-24, 07:45 AM',
     aiSummary: 'Hazardous chemical disposal in eco-sensitive green zone. Volatile compound signature indicated. Bio-protection team needed.',
     aiImpactScore: 92,
@@ -146,7 +148,7 @@ const INITIAL_ISSUES: Issue[] = [
     aiResolutionRecommendation: 'Dispatch municipal Hazmat disposal squad. Secure area 20-meter perimeter and request police security review.',
     authorityAssigned: 'Sanitation Board & Environmental Safety',
     timeline: [
-      { status: 'reported', timestamp: '07:45 AM', title: 'Hazmat Dump Reported', description: 'Citizen Sarah Jenkins reported commercial barrels dumped next to park.' }
+      { status: 'reported', timestamp: '07:45 AM', title: 'Hazmat Dump Reported', description: 'Citizen Rishab reported commercial barrels dumped next to park.' }
     ]
   },
   {
@@ -161,7 +163,7 @@ const INITIAL_ISSUES: Issue[] = [
     upvotes: 19,
     downvotes: 1,
     verificationCount: 11,
-    reportedBy: 'David Kim',
+    reportedBy: 'David',
     reportedAt: '2026-06-21, 11:30 AM',
     aiSummary: 'Structural guide-rail fracture. Deflective security barrier compromised on primary high-volume curve.',
     aiImpactScore: 68,
@@ -169,7 +171,7 @@ const INITIAL_ISSUES: Issue[] = [
     aiResolutionRecommendation: 'Excavate compromised support stanchions. Install modular steel crash rails and anchor with high-tensile bolts.',
     authorityAssigned: 'Public Works Department',
     timeline: [
-      { status: 'reported', timestamp: '11:30 AM', title: 'Barrier Compromise Reported', description: 'David Kim reported fractured curve safety rail.' },
+      { status: 'reported', timestamp: '11:30 AM', title: 'Barrier Compromise Reported', description: 'David reported fractured curve safety rail.' },
       { status: 'investigating', timestamp: '11:35 AM', title: 'Triage & Duplicate Check', description: 'Geo Intelligence Agent mapped incident near transit terminal.' },
       { status: 'verified', timestamp: '12:00 PM', title: 'Witness consensus achieved', description: '11 citizens validated report.' },
       { status: 'prioritized', timestamp: '12:05 PM', title: 'High Priority Logged', description: 'Dynamic algorithms designated priority score 68.' },
@@ -199,10 +201,142 @@ const getBadgesForStats = (reports: number, verifications: number, points: numbe
   return badges;
 };
 
+const MODE_TRANSLATIONS: Record<string, {
+  title: string;
+  verifyMode: string;
+  verifyDesc: string;
+  reportMode: string;
+  reportDesc: string;
+  gpsLocating: string;
+  gpsSuccess: string;
+  gpsError: string;
+}> = {
+  'en-US': {
+    title: "INTERACTION MODE",
+    verifyMode: "Verify Mode",
+    verifyDesc: "Verify reported environmental & infrastructure issues around selected state / street.",
+    reportMode: "Report Mode",
+    reportDesc: "Report a new incident by pinning your live GPS coordinates on the map.",
+    gpsLocating: "Locating you... checking high-accuracy GPS coordinates...",
+    gpsSuccess: "Live coordinates locked and placed on map successfully!",
+    gpsError: "Could not retrieve live coordinates. Drag/double-click map manually."
+  },
+  'hi-IN': {
+    title: "कार्रवाई मोड",
+    verifyMode: "सत्यापन मोड",
+    verifyDesc: "मानचित्र पर चयनित राज्य या सड़क के आसपास की वर्तमान समस्याओं का सत्यापन करें।",
+    reportMode: "रिपोर्ट मोड",
+    reportDesc: "मानचित्र पर अपने लाइव जीपीएस स्थान का उपयोग करके एक नई समस्या की रिपोर्ट करें।",
+    gpsLocating: "जीपीएस निर्देशांक प्राप्त किए जा रहे हैं...",
+    gpsSuccess: "लाइव स्थान लॉक और मानचित्र पर सेट किया गया!",
+    gpsError: "लाइव स्थान प्राप्त नहीं किया जा सका। मानचित्र पर स्थान मैन्युअल रूप से चुनें।"
+  },
+  'bn-IN': {
+    title: "ইন্টারঅ্যাকশন মোড",
+    verifyMode: "যাচাইকরণ মোড",
+    verifyDesc: "নির্বাচিত রাজ্য বা রাস্তার আশেপাশে রিপোর্ট করা সমস্যাগুলি যাচাই করুন।",
+    reportMode: "রিপোর্ট মোड",
+    reportDesc: "মানচিত্রে আপনার লাইভ জিপিএস স্থানাঙ্ক পিন করে একটি নতুন সমস্যা রিপোর্ট করুন।",
+    gpsLocating: "লাইভ জিপিএস স্থানাঙ্ক খোঁজা হচ্ছে...",
+    gpsSuccess: "লাইভ অবস্থান লক করা হয়েছে এবং মানচিত্রে সফলভাবে সেট করা হয়েছে!",
+    gpsError: "লাইভ অবস্থান পাওয়া যায়নি। মানচিত্রে ম্যানুয়ালি অবস্থান নির্বাচন করুন।"
+  },
+  'gu-IN': {
+    title: "ઇન્ટરેક્શન મોડ",
+    verifyMode: "ચકાસણી મોડ",
+    verifyDesc: "નકશા પર પસંદ કરેલ રાજ્ય અથવા શેરીની આસપાસની સમસ્યાઓની ચકાસણી કરો.",
+    reportMode: "રિપોર્ટ મોડ",
+    reportDesc: "નકશા પર તમારા લાઇવ જીપીએસ સ્થાનનો ઉપયોગ કરીને નવી સમસ્યાની જાણ કરો.",
+    gpsLocating: "લાઇવ જીપીએસ સ્થાન મેળવી રહ્યું છે...",
+    gpsSuccess: "લાઇવ સ્થાન લૉક અને નકશા પર સફળતાપૂર્વक સેટ થયું!",
+    gpsError: "લાઇવ સ્થાન મેળવી શકાયું નથી. નકશા પર જાતે સ્થાન પસંદ કરો."
+  },
+  'kn-IN': {
+    title: "ಸಂವಹನ ಮೋಡ್",
+    verifyMode: "ಪರಿಶೀಲನಾ ಮೋಡ್",
+    verifyDesc: "ನಕ್ಷೆಯಲ್ಲಿ ಆಯ್ಕೆಮಾಡಿದ ರಾಜ್ಯ ಅಥವಾ ಬೀದಿಯ ಸುತ್ತಲಿನ ಸಮಸ್ಯೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    reportMode: "ವರದಿ ಮೋಡ್",
+    reportDesc: "ನಕ್ಷೆಯಲ್ಲಿ ನಿಮ್ಮ ಲೈವ್ ಜಿಪಿಎಸ್ ಸ್ಥಳವನ್ನು ಪಿన్ ಮಾಡುವ ಮೂಲಕ ಹೊಸ ವರदी ಸಲ್ಲಿಸಿ.",
+    gpsLocating: "ಲೈವ್ ಜಿಪಿಎಸ್ ಸ್ಥಳ ಪತ್ತೆ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    gpsSuccess: "ಲೈವ್ ಸ್ಥಳ ಲಾಕ್ ಆಗಿದೆ ಮತ್ತು ನಕ್ಷೆಯಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಹೊಂದಿಸಲಾಗಿದೆ!",
+    gpsError: "ಲైవ్ ಸ್ಥಳವನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಕ್ಷೆಯಲ್ಲಿ ಹಸ್ತಚಾಲಿತವಾಗಿ ಸ್ಥಳವನ್ನು ಆಯ್ಕೆಮಾಡಿ."
+  },
+  'ml-IN': {
+    title: "ഇന്ററാക്ഷൻ മോഡ്",
+    verifyMode: "വെരിഫിക്കേഷൻ മോഡ്",
+    verifyDesc: "തിരഞ്ഞെടുത്ത സംസ്ഥാനത്തെ അല്ലെങ്കിൽ തെരുവിലെ നിലവിലുള്ള പ്രശ്നങ്ങൾ പരിശോധിക്കുക.",
+    reportMode: "റിപ്പോർട്ട് മോഡ്",
+    reportDesc: "മാപ്പിൽ നിങ്ങളുടെ തത്സമയ ജിപിഎസ് ലൊക്കേഷൻ പിൻ ചെയ്ത് പുതിയ റിപ്പോർട്ട് സമർപ്പിക്കുക.",
+    gpsLocating: "തത്സമയ ജിപിഎസ് ലൊക്കേഷൻ കണ്ടെത്തുന്നു...",
+    gpsSuccess: "തത്സമയ ലൊക്കേഷൻ ലോക്ക് ചെയ്യുകയും മാപ്പിൽ സജ്ജമാക്കുകയും ചെയ്തു!",
+    gpsError: "തത്സമയ ലൊക്കേഷൻ ലഭ്യമല്ല. മാപ്പിൽ സ്വയം സ്ഥലം തിരഞ്ഞെടുക്കുക."
+  },
+  'mr-IN': {
+    title: "इंटरअॅक्शन मोड",
+    verifyMode: "पडताळणी मोड",
+    verifyDesc: "नकाशावर निवडलेल्या राज्य किंवा रस्त्यावरील नागरिकांच्या तक्रारींचे सत्यापन करा.",
+    reportMode: "रिपोर्ट मोड",
+    reportDesc: "नकाशावर आपल्या थेट जीपीएस स्थानाचा वापर करून नवीन तक्रार दाखल करा.",
+    gpsLocating: "थेट जीपीएस स्थान शोधत आहे...",
+    gpsSuccess: "थेट स्थान यशस्वीरित्या लॉक केले आणि नकाशावर दाखवले!",
+    gpsError: "थेट स्थान मिळवता आले नाही. नकाशावर स्थान स्वतः निवडा."
+  },
+  'ta-IN': {
+    title: "செயல்பாட்டு முறை",
+    verifyMode: "சரிபார்ப்பு முறை",
+    verifyDesc: "வரைபடத்தில் தேர்ந்தெடுக்கப்பட்ட மாநிலம் அல்லது தெருவில் உள்ள பிரச்சனைகளை சரிபார்க்கவும்.",
+    reportMode: "புகார் முறை",
+    reportDesc: "வரைபடத்தில் உங்கள் நேரడి ஜிபிஎஸ் இருப்பிடத்தை பயன்படுத்தி புதிய புகாரை பதிவு செய்யவும்.",
+    gpsLocating: "நேரடி ஜிபிஎஸ் இருப்பிடத்தை தேடுகிறது...",
+    gpsSuccess: "நேரடி இருப்பிடம் வெற்றிகரமாக பூட்டப்பட்டு வரைபடத்தில் காட்டப்பட்டுள்ளது!",
+    gpsError: "நேரடி இருப்பிடத்தை பெற முடியவில்லை. வரைபடத்தில் இருப்பிடத்தை கைமுறையாக தேர்ந்தெடுக்கவும்."
+  },
+  'te-IN': {
+    title: "ఇంటరాక్షన్ మోడ్",
+    verifyMode: "ధృవీకరణ మోడ్",
+    verifyDesc: "మ్యాప్‌లో ఎంచుకున్న రాష్ట్రం లేదా వీధి చుట్టూ ఉన్న సమస్యలను ధృవీకరించండి.",
+    reportMode: "రిపోర్ట్ మోడ్",
+    reportDesc: "మ్యాప్‌లో మీ ప్రత్యక్ష జీపీఎస్ స్థానాన్ని పిన్ చేయడం ద్వారా కొత్త సమస్యను నివేదించండి.",
+    gpsLocating: "ప్రత్యక్ష జీపీఎస్ స్థానాన్ని గుర్తిస్తోంది...",
+    gpsSuccess: "ప్రత్యక్ష స్థానం విజయవంతంగా లాక్ చేయబడింది మరియు మ్యాప్‌లో చూపబడింది!",
+    gpsError: "ప్రత్యక్ష స్థానాన్ని పొందలేకపోయాము. మ్యాప్‌లో స్థానాన్ని మాన్యువల్‌గా ఎంచుకోండి."
+  },
+  'ur-IN': {
+    title: "انٹرایکشن موڈ",
+    verifyMode: "تصدیقی موڈ",
+    verifyDesc: "نقشے پر منتخب ریاست یا سڑک کے ارد گرد موجودہ مسائل کی تصدیق کریں۔",
+    reportMode: "رپورٹ موڈ",
+    reportDesc: "نقشے پر اپنے لائیو جی پی ایس مقام کا استعمال کرتے ہوئے ایک نیا مسئلہ رپورٹ کریں۔",
+    gpsLocating: "لائیو جی پی ایس مقام تلاش کیا جا رہا ہے...",
+    gpsSuccess: "لائیو مقام لاک ہو گیا اور نقشے پر کامیابی سے دکھا دیا گیا!",
+    gpsError: "لائیو مقام حاصل نہیں کیا جا سکا۔ نقشے پر مقام خود منتخب کریں۔"
+  }
+};
+
 export default function App() {
   const [issues, setIssues] = useState<Issue[]>(ALL_INITIAL_ISSUES);
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(ALL_INITIAL_ISSUES[0]);
   const [prefilledCoords, setPrefilledCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [interactionMode, setInteractionMode] = useState<'verify' | 'report'>('verify');
+  const [verifyLocation, setVerifyLocation] = useState<{
+    lat: number;
+    lng: number;
+    name: string;
+    type: 'state' | 'street';
+  } | null>(() => {
+    const initial = ALL_INITIAL_ISSUES[0];
+    if (initial) {
+      return {
+        lat: initial.lat,
+        lng: initial.lng,
+        name: "National Capital Region",
+        type: 'state'
+      };
+    }
+    return null;
+  });
+  const [gpsLoading, setGpsLoading] = useState(false);
+  const [gpsMessage, setGpsMessage] = useState<string | null>(null);
 
   // Map bounds state for spatial filtering
   const [mapBounds, setMapBounds] = useState<{
@@ -218,7 +352,7 @@ export default function App() {
   });
 
   // User session state
-  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; location: string } | null>(() => {
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; location: string; systemCoords?: { lat: number; lng: number } } | null>(() => {
     const saved = localStorage.getItem('civic_user');
     if (saved) {
       try {
@@ -235,6 +369,105 @@ export default function App() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginLocation, setLoginLocation] = useState('');
   const [profileOpen, setProfileOpen] = useState(false);
+
+  // System geolocation state for login
+  const [geoPermissionStatus, setGeoPermissionStatus] = useState<'prompt' | 'requesting' | 'granted' | 'denied'>('prompt');
+  const [geoCoords, setGeoCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [geoError, setGeoError] = useState<string | null>(null);
+  const [geoAutoDetected, setGeoAutoDetected] = useState<string | null>(null);
+
+  const findNearestState = (lat: number, lng: number) => {
+    // Check if we are closer to Metro Heights (SF: 37.7749, -122.4194)
+    const distToSF = Math.sqrt(Math.pow(lat - 37.7749, 2) + Math.pow(lng - (-122.4194), 2));
+    
+    let nearestState = 'Metro Heights';
+    let minDistance = distToSF;
+    
+    INDIAN_SAMPLE_ISSUES.forEach((issue) => {
+      // Find matching state name in the mapping
+      const match = INDIAN_STATES_MAPPING.find(s => s.id === issue.id);
+      if (match) {
+        const dist = Math.sqrt(Math.pow(lat - issue.lat, 2) + Math.pow(lng - issue.lng, 2));
+        if (dist < minDistance) {
+          minDistance = dist;
+          nearestState = match.state;
+        }
+      }
+    });
+    
+    return nearestState;
+  };
+
+  const requestSystemLocation = () => {
+    if (!navigator.geolocation) {
+      setGeoError("Geolocation is not supported by your browser");
+      setGeoPermissionStatus('denied');
+      return;
+    }
+    
+    setGeoPermissionStatus('requesting');
+    setGeoError(null);
+    
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setGeoCoords({ lat: latitude, lng: longitude });
+        setGeoPermissionStatus('granted');
+        
+        // Find nearest state/sector
+        const nearest = findNearestState(latitude, longitude);
+        setGeoAutoDetected(nearest);
+        setLoginLocation(nearest);
+        
+        // Also try to query OpenStreetMap Nominatim for a more detailed display name
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`, {
+            headers: {
+              'Accept-Language': 'en'
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.address) {
+              const state = data.address.state || data.address.state_district || data.address.province;
+              const city = data.address.city || data.address.town || data.address.village || data.address.suburb;
+              if (state) {
+                // Match the state to one of our mapped INDIAN_STATES_MAPPING states if possible
+                const matchingState = INDIAN_STATES_MAPPING.find(s => 
+                  state.toLowerCase().includes(s.state.toLowerCase()) || 
+                  s.state.toLowerCase().includes(state.toLowerCase())
+                );
+                if (matchingState) {
+                  setLoginLocation(matchingState.state);
+                  setGeoAutoDetected(`${matchingState.state} (${city || 'Local Sector'})`);
+                } else if (state.toLowerCase().includes('california') || state.toLowerCase().includes('san francisco')) {
+                  setLoginLocation('Metro Heights');
+                  setGeoAutoDetected(`Metro Heights (${city || 'Local Sector'})`);
+                } else {
+                  setGeoAutoDetected(`${state} (${city || 'Local Sector'})`);
+                }
+              } else if (city) {
+                setGeoAutoDetected(city);
+              }
+            }
+          }
+        } catch (e) {
+          console.warn("Reverse geocoding fetch failed, fell back to nearest mapped calculations:", e);
+        }
+      },
+      (error) => {
+        let msg = "Location access denied by system/browser.";
+        if (error.code === error.TIMEOUT) {
+          msg = "Location request timed out.";
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          msg = "Position unavailable from system GPS.";
+        }
+        setGeoError(msg);
+        setGeoPermissionStatus('denied');
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  };
 
   // Gamified Citizen Profile
   const [profile, setProfile] = useState<CitizenProfile>(() => {
@@ -323,6 +556,10 @@ export default function App() {
   // Set matching issue/location on login/mount
   useEffect(() => {
     if (currentUser && currentUser.location) {
+      if (currentUser.systemCoords) {
+        setPrefilledCoords(currentUser.systemCoords);
+      }
+      
       const stateMatch = INDIAN_STATES_MAPPING.find(
         s => s.state.toLowerCase() === currentUser.location.toLowerCase()
       );
@@ -343,16 +580,45 @@ export default function App() {
   // Handle Login submission
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!loginName.trim() || !loginEmail.trim() || !loginLocation.trim()) return;
+    if (!loginName.trim() || !loginEmail.trim()) return;
     
-    const newUser = {
-      name: loginName.trim(),
-      email: loginEmail.trim(),
-      location: loginLocation.trim()
+    const loc = loginLocation.trim();
+
+    const performLogin = (resolvedLocation: string, coords?: { lat: number; lng: number }) => {
+      const newUser = {
+        name: loginName.trim(),
+        email: loginEmail.trim(),
+        location: resolvedLocation,
+        systemCoords: coords
+      };
+      
+      localStorage.setItem('civic_user', JSON.stringify(newUser));
+      setCurrentUser(newUser);
     };
-    
-    localStorage.setItem('civic_user', JSON.stringify(newUser));
-    setCurrentUser(newUser);
+
+    // Prompt for geolocation on submit if not requested yet
+    if (geoPermissionStatus === 'prompt') {
+      setGeoPermissionStatus('requesting');
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const nearest = findNearestState(latitude, longitude);
+            setGeoCoords({ lat: latitude, lng: longitude });
+            setGeoPermissionStatus('granted');
+            performLogin(nearest, { lat: latitude, lng: longitude });
+          },
+          (error) => {
+            setGeoPermissionStatus('denied');
+            performLogin(loc || 'Metro Heights');
+          },
+          { enableHighAccuracy: true, timeout: 5000 }
+        );
+        return;
+      }
+    }
+
+    performLogin(loc || 'Metro Heights', geoCoords || undefined);
   };
 
   // Handle Logout / Sign Out
@@ -414,12 +680,59 @@ export default function App() {
 
   // Handle selecting an issue from the map or feed
   const handleSelectIssue = (issue: Issue) => {
-    setSelectedIssue(issue);
+    const original = issues.find(i => i.id === issue.id) || issue;
+    setSelectedIssue(original);
   };
 
-  // Handle Map Double-clicking or Selection to report coordinate
+  // Handle Map Clicking / Double-clicking or Selection to report or verify
   const handleSelectCoordinates = (lat: number, lng: number) => {
-    setPrefilledCoords({ lat, lng });
+    if (interactionMode === 'verify') {
+      // It's Verify Mode: Use the clicked street/location to verify
+      setVerifyLocation({
+        lat,
+        lng,
+        name: `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
+        type: 'street'
+      });
+
+      // Fetch reverse geocoded street name using Nominatim
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.display_name) {
+            const addr = data.address || {};
+            const street = addr.road || addr.suburb || addr.neighbourhood || addr.city_district || addr.county || data.display_name.split(',')[0];
+            const state = addr.state || addr.state_district || "";
+            const formattedName = street + (state ? `, ${state}` : '');
+            setVerifyLocation({
+              lat,
+              lng,
+              name: formattedName,
+              type: 'street'
+            });
+          }
+        })
+        .catch(err => {
+          console.warn("Could not reverse geocode clicked street location:", err);
+        });
+
+      // Also select nearest issue to make verification easy for the user
+      let minDistance = Infinity;
+      let closestIssue: Issue | null = null;
+      issues.forEach(issue => {
+        const dist = Math.sqrt(Math.pow(lat - issue.lat, 2) + Math.pow(lng - issue.lng, 2));
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestIssue = issue;
+        }
+      });
+      if (closestIssue && minDistance < 0.1) {
+        setSelectedIssue(closestIssue);
+      }
+    } else {
+      // It's Report Mode: Use the location to report
+      setPrefilledCoords({ lat, lng });
+    }
   };
 
   const handleClearCoords = () => {
@@ -526,6 +839,48 @@ export default function App() {
   const languageName = activeLanguage.name;
   const t = TRANSLATIONS[langCode] || TRANSLATIONS['en-US'];
 
+  const handleSetInteractionMode = (mode: 'verify' | 'report') => {
+    setInteractionMode(mode);
+    const mt = MODE_TRANSLATIONS[langCode] || MODE_TRANSLATIONS['en-US'];
+    if (mode === 'report') {
+      if (!navigator.geolocation) {
+        setGpsMessage(mt.gpsError);
+        return;
+      }
+      setGpsLoading(true);
+      setGpsMessage(mt.gpsLocating);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setPrefilledCoords({ lat: latitude, lng: longitude });
+          setGpsLoading(false);
+          setGpsMessage(mt.gpsSuccess);
+          setTimeout(() => setGpsMessage(null), 4000);
+        },
+        (error) => {
+          console.error("GPS fetch error:", error);
+          setGpsLoading(false);
+          setGpsMessage(mt.gpsError);
+          setTimeout(() => setGpsMessage(null), 5000);
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    } else {
+      setPrefilledCoords(null);
+      setGpsMessage(null);
+    }
+  };
+
+  // Dynamically localize issues based on selected language for 100% translations
+  const localizedIssues = useMemo(() => {
+    return issues.map(issue => getLocalizedIssue(issue, langCode));
+  }, [issues, langCode]);
+
+  const localizedSelectedIssue = useMemo(() => {
+    if (!selectedIssue) return null;
+    return getLocalizedIssue(selectedIssue, langCode);
+  }, [selectedIssue, langCode]);
+
   if (!currentUser) {
     return (
       <div id="login-screen-root" className="min-h-screen bg-[#0F172A] text-slate-100 relative overflow-hidden font-sans flex flex-col items-center justify-center p-4 gap-4">
@@ -546,7 +901,7 @@ export default function App() {
               />
             </div>
             <h1 className="font-display font-extrabold text-2xl text-white tracking-tight">
-              CivicHero AI Entry
+              {t.loginTitle || "CIVITAS AI Smart City Entry"}
             </h1>
             <p className="text-xs text-slate-400 font-sans mt-2 leading-relaxed">
               {t.loginSubtitle || "Sign in to access your local gamified civic dashboard, report incidents with voice, and earn reward points."}
@@ -618,13 +973,77 @@ export default function App() {
                 className="w-full text-xs bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-slate-100 outline-none font-semibold cursor-pointer"
               >
                 <option value="" className="bg-slate-950 text-slate-500">-- Choose Your Location / State --</option>
-                <option value="Metro Heights" className="bg-slate-950 text-slate-100">Metro Heights (California)</option>
+                <option value="Metro Heights" className="bg-slate-950 text-slate-100">{getLocalizedStateName('metro-heights', langCode)} (California)</option>
                 {INDIAN_STATES_MAPPING.map(item => (
                   <option key={item.id} value={item.state} className="bg-slate-950 text-slate-100">
-                    {item.state}
+                    {getLocalizedStateName(item.id, langCode)}
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Geolocation Request Widget */}
+            <div className="p-3.5 rounded-xl bg-slate-950/50 border border-white/10 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono font-bold text-slate-400 uppercase flex items-center gap-1.5">
+                  <Navigation className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
+                  System Geolocation
+                </span>
+                <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full ${
+                  geoPermissionStatus === 'granted' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                  geoPermissionStatus === 'denied' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+                  geoPermissionStatus === 'requesting' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 animate-pulse' :
+                  'bg-slate-800 text-slate-300'
+                }`}>
+                  {geoPermissionStatus === 'granted' ? 'CONNECTED' :
+                   geoPermissionStatus === 'denied' ? 'DENIED' :
+                   geoPermissionStatus === 'requesting' ? 'ACCESSING...' :
+                   'NOT SECURED'}
+                </span>
+              </div>
+              
+              <p className="text-[11px] text-slate-400 leading-normal">
+                Access your real system location coordinates to automatically select your sector and map nearby reports.
+              </p>
+
+              {geoError && (
+                <p className="text-[10px] text-rose-400 font-mono mt-1">
+                  ⚠️ {geoError}
+                </p>
+              )}
+
+              {geoCoords && (
+                <div className="p-2 rounded bg-slate-900/60 border border-white/5 space-y-1">
+                  <div className="flex items-center justify-between text-[10px] font-mono">
+                    <span className="text-slate-500">Coordinates:</span>
+                    <span className="text-slate-300">{geoCoords.lat.toFixed(4)}°, {geoCoords.lng.toFixed(4)}°</span>
+                  </div>
+                  {geoAutoDetected && (
+                    <div className="flex items-center justify-between text-[10px] font-mono">
+                      <span className="text-slate-500">Auto-Detected:</span>
+                      <span className="text-blue-400 font-bold">{geoAutoDetected}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={requestSystemLocation}
+                disabled={geoPermissionStatus === 'requesting'}
+                className="w-full py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-white/10 text-slate-200 hover:text-white font-semibold text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                {geoPermissionStatus === 'requesting' ? (
+                  <>
+                    <span className="w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></span>
+                    Querying GPS...
+                  </>
+                ) : geoPermissionStatus === 'granted' ? (
+                  '📍 Refresh GPS Signal'
+                ) : (
+                  '📍 Access & Verify System Location'
+                )}
+              </button>
             </div>
 
             <button
@@ -670,9 +1089,9 @@ export default function App() {
             </div>
             <div>
               <h1 className="font-display font-extrabold text-xl text-white tracking-tight flex items-center gap-1.5">
-                CivicHero AI
+                {t.appName || "CIVITAS AI"}
               </h1>
-              <p className="text-xs text-slate-400 font-sans mt-0.5 font-medium">Turning Community Reports into Community Action</p>
+              <p className="text-xs text-slate-400 font-sans mt-0.5 font-medium">{t.appSubtitle || "Turning Community Reports into Community Action"}</p>
             </div>
           </div>
 
@@ -833,7 +1252,7 @@ export default function App() {
           {/* REPORT. VERIFY. RESOLVE. Banner */}
           <div className="w-full backdrop-blur-xl bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-white/10 rounded-3xl p-5 shadow-2xl relative z-10 text-center animate-in fade-in zoom-in-95 duration-500">
             <p className="font-sans font-black text-white text-sm md:text-base tracking-[0.3em] leading-relaxed">
-              REPORT. VERIFY. RESOLVE.
+              {t.reportVerifyResolve || "REPORT. VERIFY. RESOLVE."}
             </p>
           </div>
           
@@ -841,7 +1260,7 @@ export default function App() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 bg-slate-900/50 border border-white/10 rounded-2xl shadow-xl">
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                🇮🇳 Region Selection (India):
+                🇮🇳 {t.regionSelection || "Region Selection (India)"}:
               </span>
             </div>
             <div className="relative w-full sm:w-80">
@@ -852,32 +1271,131 @@ export default function App() {
                     const targetIssue = issues.find(i => i.id === e.target.value);
                     if (targetIssue) {
                       setSelectedIssue(targetIssue);
+                      setVerifyLocation({
+                        lat: targetIssue.lat,
+                        lng: targetIssue.lng,
+                        name: getLocalizedStateName(targetIssue.id, langCode),
+                        type: 'state'
+                      });
                     }
                   }
                 }}
                 value={selectedIssue?.id.startsWith('ind-') ? selectedIssue.id : ''}
                 className="w-full text-xs font-bold bg-slate-950 text-slate-200 border border-white/10 rounded-xl pl-9 pr-8 py-2.5 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer"
               >
-                <option value="" className="bg-slate-950 text-slate-400">-- Choose State --</option>
+                <option value="" className="bg-slate-950 text-slate-400">{t.chooseStatePlaceholder || "-- Choose State --"}</option>
                 {INDIAN_STATES_MAPPING.map(item => (
-                  <option key={item.id} value={item.id} className="bg-slate-950 text-slate-200">
-                    {item.state}
-                  </option>
+                   <option key={item.id} value={item.id} className="bg-slate-950 text-slate-200">
+                     {getLocalizedStateName(item.id, langCode)}
+                   </option>
                 ))}
               </select>
               <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
+          {/* INTERACTION MODE: Verify vs Report Selector */}
+          <div className="p-5 bg-gradient-to-br from-slate-900/60 to-slate-950/80 border border-white/10 rounded-2xl shadow-xl space-y-3 relative overflow-hidden backdrop-blur-md">
+            <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-blue-500/5 blur-2xl pointer-events-none"></div>
+            
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
+                {(MODE_TRANSLATIONS[langCode] || MODE_TRANSLATIONS['en-US']).title}
+              </h3>
+              {gpsLoading && (
+                <div className="flex items-center gap-1.5 text-xs text-blue-400 font-mono animate-pulse">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></div>
+                  <span>{(MODE_TRANSLATIONS[langCode] || MODE_TRANSLATIONS['en-US']).gpsLocating}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Verify Mode Button Card */}
+              <button
+                id="btn-mode-verify"
+                onClick={() => handleSetInteractionMode('verify')}
+                className={`flex items-start gap-3 p-3.5 rounded-xl border text-left transition-all duration-300 ${
+                  interactionMode === 'verify'
+                    ? 'bg-blue-500/10 border-blue-500/40 shadow-lg shadow-blue-500/5'
+                    : 'bg-slate-950/40 border-white/5 hover:bg-slate-900/40 hover:border-white/10'
+                }`}
+              >
+                <div className={`p-2 rounded-lg ${interactionMode === 'verify' ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-900 text-slate-400'}`}>
+                  <CheckCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    {(MODE_TRANSLATIONS[langCode] || MODE_TRANSLATIONS['en-US']).verifyMode}
+                    {interactionMode === 'verify' && <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>}
+                  </h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5 leading-tight">
+                    {(MODE_TRANSLATIONS[langCode] || MODE_TRANSLATIONS['en-US']).verifyDesc}
+                  </p>
+                </div>
+              </button>
+
+              {/* Report Mode Button Card */}
+              <button
+                id="btn-mode-report"
+                onClick={() => handleSetInteractionMode('report')}
+                className={`flex items-start gap-3 p-3.5 rounded-xl border text-left transition-all duration-300 ${
+                  interactionMode === 'report'
+                    ? 'bg-emerald-500/10 border-emerald-500/40 shadow-lg shadow-emerald-500/5'
+                    : 'bg-slate-950/40 border-white/5 hover:bg-slate-900/40 hover:border-white/10'
+                }`}
+              >
+                <div className={`p-2 rounded-lg ${interactionMode === 'report' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-900 text-slate-400'}`}>
+                  <AlertCircle className="w-5 h-5 animate-pulse" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    {(MODE_TRANSLATIONS[langCode] || MODE_TRANSLATIONS['en-US']).reportMode}
+                    {interactionMode === 'report' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>}
+                  </h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5 leading-tight">
+                    {(MODE_TRANSLATIONS[langCode] || MODE_TRANSLATIONS['en-US']).reportDesc}
+                  </p>
+                </div>
+              </button>
+            </div>
+
+            {interactionMode === 'verify' && verifyLocation && (
+              <div className="flex items-center gap-2.5 p-2.5 px-3.5 rounded-xl text-xs font-mono border bg-blue-950/30 border-blue-500/20 text-blue-300">
+                <MapPin className="w-3.5 h-3.5 text-blue-400 animate-pulse flex-shrink-0" />
+                <span className="font-bold text-blue-400 flex-shrink-0">{verifyLocation.type === 'state' ? 'STATE REGION:' : 'STREET LOCATION:'}</span>
+                <span className="truncate flex-1">{verifyLocation.name}</span>
+                <span className="text-[10px] text-slate-500 font-sans flex-shrink-0">({verifyLocation.lat.toFixed(4)}, {verifyLocation.lng.toFixed(4)})</span>
+              </div>
+            )}
+
+            {gpsMessage && (
+              <div className={`flex items-center gap-2 p-2 px-3 rounded-lg text-xs font-mono border ${
+                gpsMessage.includes("Locked") || gpsMessage.includes("लॉक") || gpsMessage.includes("সফল") || gpsMessage.includes("ల్యాండ్") || gpsMessage.includes("வெற்றிகரமாக")
+                  ? 'bg-emerald-950/50 border-emerald-500/20 text-emerald-400'
+                  : gpsMessage.includes("Locating") || gpsMessage.includes("खोज") || gpsMessage.includes("प्राप्त")
+                  ? 'bg-blue-950/50 border-blue-500/20 text-blue-400'
+                  : 'bg-amber-950/50 border-amber-500/20 text-amber-400'
+              }`}>
+                <div className="w-1.5 h-1.5 rounded-full bg-current animate-ping"></div>
+                <span className="flex-1">{gpsMessage}</span>
+              </div>
+            )}
+          </div>
+
           {/* Main Top Section: Community Interactive Map */}
           <section id="community-map-section">
             <MapComponent 
-              issues={issues}
-              selectedIssue={selectedIssue}
+              issues={localizedIssues}
+              selectedIssue={localizedSelectedIssue}
               onSelectIssue={handleSelectIssue}
               onSelectCoordinates={handleSelectCoordinates}
               onBoundsChange={setMapBounds}
               prefilledCoords={prefilledCoords}
+              verifyLocation={verifyLocation}
+              interactionMode={interactionMode}
+              langCode={langCode}
             />
           </section>
 
@@ -899,13 +1417,13 @@ export default function App() {
 
           {/* Multi-Agent Animated resolution pipeline */}
           <section id="ai-agent-workflow-section">
-            <WorkflowDisplay activeIssue={selectedIssue} />
+            <WorkflowDisplay activeIssue={localizedSelectedIssue} langCode={langCode} />
           </section>
 
           {/* Dynamic Feed & Predictive Insights Chart */}
           <section id="active-incidents-dashboard">
             <Dashboard 
-              issues={issues}
+              issues={localizedIssues}
               mapBounds={mapBounds}
               onSelectIssue={handleSelectIssue}
               onVerifyIssue={handleVerifyIssue}
@@ -918,7 +1436,7 @@ export default function App() {
       </div>
 
       {/* Circular floating Neural chatbot Siri-style button */}
-      <Chatbot currentIssues={issues} langCode={langCode} languageName={languageName} />
+      <Chatbot currentIssues={localizedIssues} langCode={langCode} languageName={languageName} />
     </div>
   );
 }
